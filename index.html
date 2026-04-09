@@ -109,19 +109,98 @@
   </ul>
 </section>
 
-<!-- ネクストアクション -->
+<!-- ネクストアクション（Supabase連携・編集可能） -->
 <section id="next-actions">
-  <h2>ネクストアクション</h2>
-  <table>
-    <tr><th>#</th><th>担当</th><th>内容</th><th>期限</th></tr>
-    <tr><td>1</td><td>園田</td><td>LINEグループ作成（URLはMessenger送付済み）</td><td>済</td></tr>
-    <tr><td>2</td><td>園田</td><td>議事録送付</td><td>直後</td></tr>
-    <tr><td>3</td><td>園田</td><td>病児保育・産後ケアの認知促進コンテンツ素材を準備・共有</td><td>近日</td></tr>
-    <tr><td>4</td><td>園田</td><td>会話中に失念した「3つ目の協業案」をLINEで共有</td><td>近日</td></tr>
-    <tr><td>5</td><td>両社</td><td>信用構築フェーズを経て、自治体・産後ケア・コンテンツ連携を順次具体化</td><td>継続</td></tr>
-    <tr><td>6</td><td>将来</td><td>キッズプラスとの対談・コラボ企画検討</td><td>中長期</td></tr>
+  <h2>ネクストアクション <span style="font-size:12px;color:#888;font-weight:normal">（編集可能 / Supabase）</span></h2>
+  <div id="tasks-status" class="meta">読み込み中...</div>
+  <table id="tasks-table">
+    <thead>
+      <tr>
+        <th style="width:40px">完了</th>
+        <th>内容</th>
+        <th style="width:90px">担当</th>
+        <th style="width:90px">期限</th>
+        <th style="width:50px"></th>
+      </tr>
+    </thead>
+    <tbody id="tasks-body"></tbody>
   </table>
+  <h4>新規追加</h4>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <input id="new-subject" type="text" placeholder="内容" style="flex:1;min-width:200px;padding:8px;border:1px solid var(--border);border-radius:6px">
+    <input id="new-owner"   type="text" placeholder="担当" style="width:90px;padding:8px;border:1px solid var(--border);border-radius:6px">
+    <input id="new-due"     type="text" placeholder="期限" style="width:90px;padding:8px;border:1px solid var(--border);border-radius:6px">
+    <button id="add-btn" style="padding:8px 16px;background:var(--pink);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600">追加</button>
+  </div>
 </section>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = 'https://ebejuzvamqqraytzugvg.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_PH1PrXqMHS1126p46U8zqg_eS3pc3KP';
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const TABLE = 'mtg_motherplus_tasks';
+
+const $body   = document.getElementById('tasks-body');
+const $status = document.getElementById('tasks-status');
+
+function escapeHtml(s){return (s??'').toString().replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+async function load(){
+  $status.textContent = '読み込み中...';
+  const { data, error } = await supabase.from(TABLE).select('*').order('sort_order',{ascending:true}).order('created_at',{ascending:true});
+  if(error){ $status.textContent='エラー: '+error.message; return; }
+  $status.textContent = `${data.length}件`;
+  $body.innerHTML = data.map(t => `
+    <tr data-id="${t.id}" style="${t.status==='done'?'opacity:.5;text-decoration:line-through':''}">
+      <td><input type="checkbox" class="chk" ${t.status==='done'?'checked':''}></td>
+      <td><span class="edit" data-field="subject" contenteditable="true">${escapeHtml(t.subject)}</span></td>
+      <td><span class="edit" data-field="owner" contenteditable="true">${escapeHtml(t.owner||'')}</span></td>
+      <td><span class="edit" data-field="due" contenteditable="true">${escapeHtml(t.due||'')}</span></td>
+      <td><button class="del" style="background:none;border:none;color:#c33;cursor:pointer;font-size:16px">×</button></td>
+    </tr>
+  `).join('');
+}
+
+$body.addEventListener('change', async e => {
+  if(!e.target.classList.contains('chk')) return;
+  const id = e.target.closest('tr').dataset.id;
+  const status = e.target.checked ? 'done' : 'pending';
+  await supabase.from(TABLE).update({status}).eq('id',id);
+  load();
+});
+
+$body.addEventListener('blur', async e => {
+  if(!e.target.classList.contains('edit')) return;
+  const id = e.target.closest('tr').dataset.id;
+  const field = e.target.dataset.field;
+  const value = e.target.textContent.trim();
+  await supabase.from(TABLE).update({[field]:value}).eq('id',id);
+}, true);
+
+$body.addEventListener('click', async e => {
+  if(!e.target.classList.contains('del')) return;
+  if(!confirm('削除しますか？')) return;
+  const id = e.target.closest('tr').dataset.id;
+  await supabase.from(TABLE).delete().eq('id',id);
+  load();
+});
+
+document.getElementById('add-btn').addEventListener('click', async () => {
+  const subject = document.getElementById('new-subject').value.trim();
+  if(!subject) return;
+  const owner = document.getElementById('new-owner').value.trim();
+  const due   = document.getElementById('new-due').value.trim();
+  await supabase.from(TABLE).insert({subject, owner, due, status:'pending', sort_order:9999});
+  document.getElementById('new-subject').value='';
+  document.getElementById('new-owner').value='';
+  document.getElementById('new-due').value='';
+  load();
+});
+
+load();
+</script>
 
 <!-- 議事録 -->
 <section id="minutes">
