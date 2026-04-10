@@ -58,15 +58,15 @@ main{max-width:960px;margin:0 auto;padding:48px 24px}
 .breadcrumb a{color:var(--text-sub)}
 section{
   background:var(--bg);
-  border-top:1px solid var(--border-light);
   padding:48px 0;margin:0;
   scroll-margin-top:80px;
 }
 html{scroll-behavior:smooth}
-section:first-of-type{border-top:none;padding-top:0}
+section:first-of-type{padding-top:0}
+#tasks-table tbody tr:last-child td{border-bottom:none}
 section h2{
   margin:0 0 24px;font-size:24px;font-weight:700;
-  padding-bottom:12px;border-bottom:2px solid var(--text);
+  padding-bottom:12px;
   letter-spacing:.02em;
 }
 section h3{margin:32px 0 12px;font-size:19px;font-weight:700;color:var(--text)}
@@ -84,7 +84,7 @@ thead th{
   background:var(--bg-alt);font-weight:700;
   border-bottom:2px solid var(--text);
 }
-tbody tr:hover{background:var(--bg-alt)}
+#tasks-table tbody tr:hover{background:var(--bg-alt)}
 ul,ol{padding-left:24px;margin:8px 0 16px}
 li{margin-bottom:8px}
 .meta{color:var(--text-sub);font-size:14px}
@@ -125,7 +125,6 @@ footer.site .inner{max-width:960px;margin:0 auto}
 /* ミーティング一覧カード */
 .meeting-list{
   display:flex;flex-direction:column;gap:0;
-  border-top:2px solid var(--text);
 }
 .meeting-card{
   display:block;
