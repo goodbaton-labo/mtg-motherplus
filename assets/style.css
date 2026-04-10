@@ -1,0 +1,217 @@
+:root{
+  --accent:#0017c1;
+  --accent-hover:#000a8c;
+  --text:#1a1a1c;
+  --text-sub:#595959;
+  --bg:#ffffff;
+  --bg-alt:#f0f0f0;
+  --border:#1a1a1c;
+  --border-light:#d1d1d1;
+  --focus:#ffcc00;
+}
+*{box-sizing:border-box}
+html{font-size:16px}
+body{
+  font-family:"Noto Sans JP",-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;
+  color:var(--text);background:var(--bg);
+  line-height:1.8;margin:0;
+  font-feature-settings:"palt";
+}
+a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+a:hover{color:var(--accent-hover)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,[contenteditable]:focus-visible{
+  outline:3px solid var(--focus);outline-offset:2px;
+}
+header.site{
+  background:var(--bg);
+  border-bottom:2px solid var(--text);
+  padding:32px 24px 24px;
+}
+header.site .inner{max-width:960px;margin:0 auto}
+header.site h1{margin:0 0 8px;font-size:28px;font-weight:700;letter-spacing:.02em}
+header.site h1 a{color:var(--text);text-decoration:none}
+header.site p{margin:0;font-size:14px;color:var(--text-sub)}
+nav.site{
+  position:sticky;top:0;background:var(--bg);
+  border-bottom:1px solid var(--border-light);
+  padding:0;z-index:10;
+}
+nav.site .inner{
+  max-width:960px;margin:0 auto;padding:0 24px;
+  display:flex;gap:0;overflow-x:auto;white-space:nowrap;
+}
+nav.site a{
+  color:var(--text);text-decoration:none;
+  padding:16px 20px;font-size:15px;font-weight:500;
+  border-bottom:3px solid transparent;
+}
+nav.site a:hover,nav.site a[aria-current]{
+  border-bottom-color:var(--accent);color:var(--accent);
+}
+main{max-width:960px;margin:0 auto;padding:48px 24px}
+.breadcrumb{
+  font-size:14px;color:var(--text-sub);margin-bottom:24px;
+}
+.breadcrumb a{color:var(--text-sub)}
+section{
+  background:var(--bg);
+  border-top:1px solid var(--border-light);
+  padding:48px 0;margin:0;
+}
+section:first-of-type{border-top:none;padding-top:0}
+section h2{
+  margin:0 0 24px;font-size:24px;font-weight:700;
+  padding-bottom:12px;border-bottom:2px solid var(--text);
+  letter-spacing:.02em;
+}
+section h3{margin:32px 0 12px;font-size:19px;font-weight:700;color:var(--text)}
+section h4{margin:24px 0 8px;font-size:16px;font-weight:700;color:var(--text)}
+p{margin:8px 0 16px}
+table{
+  width:100%;border-collapse:collapse;margin:16px 0;
+  font-size:15px;
+}
+th,td{
+  border-bottom:1px solid var(--border-light);
+  padding:14px 16px;text-align:left;vertical-align:top;
+}
+thead th{
+  background:var(--bg-alt);font-weight:700;
+  border-bottom:2px solid var(--text);
+}
+tbody tr:hover{background:var(--bg-alt)}
+ul,ol{padding-left:24px;margin:8px 0 16px}
+li{margin-bottom:8px}
+.meta{color:var(--text-sub);font-size:14px}
+.quote{
+  border-left:4px solid var(--accent);
+  background:var(--bg-alt);
+  padding:16px 20px;margin:16px 0;
+  font-style:normal;
+}
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:0;margin:16px 0;
+  border-top:1px solid var(--border-light);
+  border-left:1px solid var(--border-light);
+}
+.grid .item{
+  border-right:1px solid var(--border-light);
+  border-bottom:1px solid var(--border-light);
+  padding:16px 20px;background:var(--bg);
+}
+.grid .item strong{
+  display:block;font-size:14px;font-weight:700;
+  color:var(--accent);margin-bottom:6px;
+}
+footer.site{
+  border-top:2px solid var(--text);
+  padding:32px 24px 48px;
+  color:var(--text-sub);font-size:13px;
+}
+footer.site .inner{max-width:960px;margin:0 auto}
+.notice{
+  background:var(--bg-alt);
+  border-left:4px solid var(--accent);
+  padding:16px 20px;margin:0 0 32px;
+  font-size:14px;
+}
+
+/* ミーティング一覧カード */
+.meeting-list{
+  display:flex;flex-direction:column;gap:0;
+  border-top:2px solid var(--text);
+}
+.meeting-card{
+  display:block;
+  padding:24px 4px;
+  border-bottom:1px solid var(--border-light);
+  text-decoration:none;color:var(--text);
+}
+.meeting-card:hover{background:var(--bg-alt)}
+.meeting-card .row1{
+  display:flex;align-items:baseline;gap:16px;margin-bottom:8px;
+  flex-wrap:wrap;
+}
+.meeting-card .num{
+  font-size:13px;font-weight:700;color:var(--accent);
+  letter-spacing:.05em;
+}
+.meeting-card .date{
+  font-size:13px;color:var(--text-sub);
+}
+.meeting-card .title{
+  margin:4px 0 8px;font-size:20px;font-weight:700;
+  color:var(--text);
+}
+.meeting-card:hover .title{color:var(--accent);text-decoration:underline}
+.meeting-card .summary{
+  margin:0;font-size:14px;color:var(--text-sub);
+  line-height:1.7;
+}
+
+/* タスク管理 */
+#tasks-table input[type="checkbox"]{
+  width:20px;height:20px;cursor:pointer;
+}
+#tasks-table .edit{
+  display:inline-block;min-width:60px;
+  padding:2px 4px;border-radius:2px;
+}
+#tasks-table .edit:hover{background:var(--bg-alt)}
+#tasks-table .cell-select,#tasks-table .cell-date{
+  font-family:inherit;font-size:14px;
+  border:1px solid var(--border-light);border-radius:4px;
+  padding:6px 8px;background:#fff;width:100%;
+}
+#tasks-table tr.is-done td{
+  color:var(--text-sub);
+  text-decoration:line-through;
+  text-decoration-color:var(--text-sub);
+}
+#tasks-table tr.is-done input[type="checkbox"]{text-decoration:none}
+#tasks-table .del{
+  background:none;border:1px solid var(--border-light);
+  color:var(--text-sub);cursor:pointer;
+  width:32px;height:32px;border-radius:4px;
+  font-size:16px;line-height:1;
+}
+#tasks-table .del:hover{
+  border-color:var(--text);color:var(--text);
+}
+.add-form{
+  display:grid;
+  grid-template-columns:1fr 140px 160px auto;
+  gap:16px;align-items:end;
+  background:var(--bg-alt);
+  padding:20px;border-radius:4px;
+  margin-top:12px;
+}
+.add-field{display:flex;flex-direction:column;gap:6px}
+.add-field span{font-size:13px;font-weight:700;color:var(--text)}
+#new-subject,#new-owner,#new-due{
+  font-family:inherit;font-size:15px;
+  border:1px solid var(--border);border-radius:4px;
+  padding:10px 12px;background:#fff;
+  width:100%;
+}
+#add-btn{
+  font-family:inherit;font-size:15px;font-weight:700;
+  background:var(--accent);color:#fff;
+  border:1px solid var(--accent);border-radius:4px;
+  padding:11px 28px;cursor:pointer;
+  white-space:nowrap;height:44px;
+}
+#add-btn:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+
+@media (max-width:720px){
+  .add-form{grid-template-columns:1fr 1fr;gap:12px}
+  .add-field-subject{grid-column:1 / -1}
+  #add-btn{grid-column:1 / -1;width:100%}
+}
+@media (max-width:640px){
+  main{padding:32px 20px}
+  section{padding:32px 0}
+  section h2{font-size:20px}
+  nav.site a{padding:14px 14px;font-size:14px}
+}
