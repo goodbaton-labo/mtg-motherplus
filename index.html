@@ -246,7 +246,7 @@ document.getElementById('add-btn').addEventListener('click', async () => {
   if(!subject){ alert('内容を入力してください'); return; }
   const owner = document.getElementById('new-owner').value || null;
   const due   = document.getElementById('new-due').value || null;
-  const { error } = await supabase.from(TABLE).insert({subject, owner, due, status:'pending', sort_order:9999});
+  const { error } = await supabase.from(TABLE).insert({subject, owner, due, status:'pending', sort_order:9999, company:'マザープラス'});
   if(error){ alert('追加エラー: '+error.message); return; }
   document.getElementById('new-subject').value='';
   document.getElementById('new-owner').value='';
