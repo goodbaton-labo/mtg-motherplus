@@ -60,7 +60,9 @@ section{
   background:var(--bg);
   border-top:1px solid var(--border-light);
   padding:48px 0;margin:0;
+  scroll-margin-top:80px;
 }
+html{scroll-behavior:smooth}
 section:first-of-type{border-top:none;padding-top:0}
 section h2{
   margin:0 0 24px;font-size:24px;font-weight:700;
