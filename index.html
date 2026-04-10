@@ -186,7 +186,7 @@ function render(){
 
 async function load(){
   $status.textContent = '読み込み中...';
-  const { data, error } = await supabase.from(TABLE).select('*').order('sort_order',{ascending:true}).order('created_at',{ascending:true});
+  const { data, error } = await supabase.from(TABLE).select('*').order('due',{ascending:true,nullsFirst:false}).order('created_at',{ascending:true});
   if(error){ $status.textContent='エラー: '+error.message; return; }
   allTasks = data;
   render();
