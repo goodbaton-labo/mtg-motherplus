@@ -86,6 +86,7 @@
       <span>担当</span>
       <select id="new-owner">
         <option value="">選択</option>
+        <option value="割振未">（割振未）</option>
         <option value="園田">園田</option>
         <option value="信田">信田</option>
         <option value="本多">本多</option>
@@ -128,7 +129,13 @@ const SUPABASE_KEY = 'sb_publishable_PH1PrXqMHS1126p46U8zqg_eS3pc3KP';
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const TABLE = 'mtg_motherplus_tasks';
 
-const OWNERS = ['園田','信田','本多','先方'];
+const OWNERS = [
+  {value:'割振未', label:'（割振未）'},
+  {value:'園田',   label:'園田'},
+  {value:'信田',   label:'信田'},
+  {value:'本多',   label:'本多'},
+  {value:'先方',   label:'先方'},
+];
 const $body    = document.getElementById('tasks-body');
 const $status  = document.getElementById('tasks-status');
 const $showDone = document.getElementById('show-done');
@@ -140,7 +147,7 @@ function escapeHtml(s){return (s??'').toString().replace(/[&<>"']/g, c=>({'&':'&
 function ownerSelect(current){
   return `<select class="cell-select" data-field="owner">
     <option value="">—</option>
-    ${OWNERS.map(o => `<option value="${o}" ${o===current?'selected':''}>${o}</option>`).join('')}
+    ${OWNERS.map(o => `<option value="${o.value}" ${o.value===current?'selected':''}>${o.label}</option>`).join('')}
   </select>`;
 }
 
