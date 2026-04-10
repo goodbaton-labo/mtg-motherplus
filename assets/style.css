@@ -93,21 +93,6 @@ li{margin-bottom:8px}
   padding:16px 20px;margin:16px 0;
   font-style:normal;
 }
-.grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:0;margin:16px 0;
-  border-top:1px solid var(--border-light);
-  border-left:1px solid var(--border-light);
-}
-.grid .item{
-  border-right:1px solid var(--border-light);
-  border-bottom:1px solid var(--border-light);
-  padding:16px 20px;background:var(--bg);
-}
-.grid .item strong{
-  display:block;font-size:14px;font-weight:700;
-  color:var(--accent);margin-bottom:6px;
-}
 footer.site{
   border-top:2px solid var(--text);
   padding:32px 24px 48px;
