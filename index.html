@@ -6,88 +6,178 @@
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="googlebot" content="noindex, nofollow">
 <title>株式会社マザープラス × グッドバトン MTG情報</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --pink:#e85a8a;
-    --pink-light:#fce4ec;
-    --text:#2d2d2d;
-    --muted:#666;
-    --bg:#fafafa;
-    --card:#fff;
-    --border:#e5e5e5;
+    --accent:#0017c1;        /* デジタル庁ブルー（アクセントのみに使用） */
+    --accent-hover:#000a8c;
+    --text:#1a1a1c;
+    --text-sub:#595959;
+    --bg:#ffffff;
+    --bg-alt:#f0f0f0;
+    --border:#1a1a1c;
+    --border-light:#d1d1d1;
+    --focus:#ffcc00;
   }
   *{box-sizing:border-box}
+  html{font-size:16px}
   body{
-    font-family:-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;
+    font-family:"Noto Sans JP",-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;
     color:var(--text);background:var(--bg);
-    line-height:1.7;margin:0;
+    line-height:1.8;margin:0;
+    font-feature-settings:"palt";
+  }
+  a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+  a:hover{color:var(--accent-hover)}
+  a:focus-visible,button:focus-visible,input:focus-visible,[contenteditable]:focus-visible{
+    outline:3px solid var(--focus);outline-offset:2px;
   }
   header{
-    background:linear-gradient(135deg,#e85a8a 0%,#f48fb1 100%);
-    color:#fff;padding:48px 24px;text-align:center;
+    background:var(--bg);
+    border-bottom:2px solid var(--text);
+    padding:32px 24px 24px;
   }
-  header h1{margin:0 0 8px;font-size:28px}
-  header p{margin:0;opacity:.9;font-size:14px}
+  header .inner{max-width:960px;margin:0 auto}
+  header h1{margin:0 0 8px;font-size:28px;font-weight:700;letter-spacing:.02em}
+  header p{margin:0;font-size:14px;color:var(--text-sub)}
   nav{
-    position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);
-    padding:12px 24px;z-index:10;overflow-x:auto;white-space:nowrap;
+    position:sticky;top:0;background:var(--bg);
+    border-bottom:1px solid var(--border-light);
+    padding:0;z-index:10;
+  }
+  nav .inner{
+    max-width:960px;margin:0 auto;padding:0 24px;
+    display:flex;gap:0;overflow-x:auto;white-space:nowrap;
   }
   nav a{
-    color:var(--pink);text-decoration:none;margin-right:20px;font-size:14px;font-weight:600;
+    color:var(--text);text-decoration:none;
+    padding:16px 20px;font-size:15px;font-weight:500;
+    border-bottom:3px solid transparent;
   }
-  nav a:hover{text-decoration:underline}
-  main{max-width:920px;margin:0 auto;padding:32px 24px}
+  nav a:hover{border-bottom-color:var(--accent);color:var(--accent)}
+  main{max-width:960px;margin:0 auto;padding:48px 24px}
   section{
-    background:var(--card);border:1px solid var(--border);border-radius:12px;
-    padding:32px;margin-bottom:24px;
+    background:var(--bg);
+    border-top:1px solid var(--border-light);
+    padding:48px 0;margin:0;
   }
+  section:first-of-type{border-top:none;padding-top:0}
   section h2{
-    color:var(--pink);border-left:4px solid var(--pink);padding-left:12px;
-    margin-top:0;font-size:22px;
+    margin:0 0 24px;font-size:24px;font-weight:700;
+    padding-bottom:12px;border-bottom:2px solid var(--text);
+    letter-spacing:.02em;
   }
-  section h3{margin-top:28px;font-size:17px;color:#333}
-  section h4{margin-top:20px;font-size:15px;color:#555}
-  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
-  th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;vertical-align:top}
-  th{background:var(--pink-light);color:#333;font-weight:600}
-  ul,ol{padding-left:22px}
-  li{margin-bottom:6px}
-  .meta{color:var(--muted);font-size:13px}
-  .badge{
-    display:inline-block;background:var(--pink-light);color:var(--pink);
-    padding:2px 10px;border-radius:12px;font-size:12px;margin-right:6px;
+  section h3{margin:32px 0 12px;font-size:19px;font-weight:700;color:var(--text)}
+  section h4{margin:24px 0 8px;font-size:16px;font-weight:700;color:var(--text)}
+  p{margin:8px 0 16px}
+  table{
+    width:100%;border-collapse:collapse;margin:16px 0;
+    font-size:15px;
   }
+  th,td{
+    border-bottom:1px solid var(--border-light);
+    padding:14px 16px;text-align:left;vertical-align:top;
+  }
+  thead th{
+    background:var(--bg-alt);font-weight:700;
+    border-bottom:2px solid var(--text);
+  }
+  tbody tr:hover{background:var(--bg-alt)}
+  ul,ol{padding-left:24px;margin:8px 0 16px}
+  li{margin-bottom:8px}
+  .meta{color:var(--text-sub);font-size:14px}
   .quote{
-    border-left:3px solid var(--pink);background:var(--pink-light);
-    padding:12px 16px;margin:16px 0;font-style:italic;
+    border-left:4px solid var(--accent);
+    background:var(--bg-alt);
+    padding:16px 20px;margin:16px 0;
+    font-style:normal;
   }
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:12px 0}
-  .grid .item{border:1px solid var(--border);border-radius:8px;padding:12px;background:#fff}
-  .grid .item strong{display:block;color:var(--pink);font-size:13px;margin-bottom:4px}
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:0;margin:16px 0;
+    border-top:1px solid var(--border-light);
+    border-left:1px solid var(--border-light);
+  }
+  .grid .item{
+    border-right:1px solid var(--border-light);
+    border-bottom:1px solid var(--border-light);
+    padding:16px 20px;background:var(--bg);
+  }
+  .grid .item strong{
+    display:block;font-size:14px;font-weight:700;
+    color:var(--accent);margin-bottom:6px;
+  }
   footer{
-    text-align:center;color:var(--muted);font-size:12px;padding:32px 24px 48px;
+    border-top:2px solid var(--text);
+    padding:32px 24px 48px;
+    color:var(--text-sub);font-size:13px;
   }
+  footer .inner{max-width:960px;margin:0 auto}
   .notice{
-    background:#fff8e1;border:1px solid #ffc107;border-radius:8px;
-    padding:12px 16px;margin:16px 0;font-size:13px;color:#666;
+    background:var(--bg-alt);
+    border-left:4px solid var(--accent);
+    padding:16px 20px;margin:0 0 32px;
+    font-size:14px;
+  }
+  /* タスク管理 */
+  #tasks-table input[type="checkbox"]{
+    width:20px;height:20px;cursor:pointer;
+  }
+  #tasks-table .edit{
+    display:inline-block;min-width:60px;
+    padding:2px 4px;border-radius:2px;
+  }
+  #tasks-table .edit:hover{background:var(--bg-alt)}
+  #tasks-table .del{
+    background:none;border:1px solid var(--border-light);
+    color:var(--text-sub);cursor:pointer;
+    width:28px;height:28px;border-radius:4px;
+    font-size:14px;line-height:1;
+  }
+  #tasks-table .del:hover{
+    border-color:var(--text);color:var(--text);
+  }
+  #new-subject,#new-owner,#new-due{
+    font-family:inherit;font-size:15px;
+    border:1px solid var(--border);border-radius:4px;
+    padding:10px 12px;
+  }
+  #add-btn{
+    font-family:inherit;font-size:15px;font-weight:700;
+    background:var(--accent);color:#fff;
+    border:1px solid var(--accent);border-radius:4px;
+    padding:10px 24px;cursor:pointer;
+  }
+  #add-btn:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+  @media (max-width:640px){
+    main{padding:32px 20px}
+    section{padding:32px 0}
+    section h2{font-size:20px}
+    nav a{padding:14px 14px;font-size:14px}
   }
 </style>
 </head>
 <body>
 <header>
-  <h1>株式会社マザープラス</h1>
-  <p>会社情報・事業概要・MTG議事録（2026年4月9日）</p>
+  <div class="inner">
+    <h1>株式会社マザープラス</h1>
+    <p>会社情報・事業概要・MTG議事録（2026年4月9日）</p>
+  </div>
 </header>
 
-<nav>
-  <a href="#summary">サマリ</a>
-  <a href="#next-actions">ネクストアクション</a>
-  <a href="#minutes">議事録</a>
-  <a href="#company">会社概要</a>
-  <a href="#services">事業内容</a>
-  <a href="#mamanoyume">ママノユメ</a>
-  <a href="#kidsplus">キッズプラス</a>
-  <a href="#achievements">主な実績</a>
+<nav aria-label="ページ内ナビゲーション">
+  <div class="inner">
+    <a href="#summary">サマリ</a>
+    <a href="#next-actions">ネクストアクション</a>
+    <a href="#minutes">議事録</a>
+    <a href="#company">会社概要</a>
+    <a href="#services">事業内容</a>
+    <a href="#mamanoyume">ママノユメ</a>
+    <a href="#kidsplus">キッズプラス</a>
+    <a href="#achievements">主な実績</a>
+  </div>
 </nav>
 
 <main>
@@ -507,8 +597,10 @@ load();
 </main>
 
 <footer>
-  © 株式会社マザープラス｜本ページは内部共有用（noindex）<br>
-  作成：goodbaton-labo
+  <div class="inner">
+    © 株式会社マザープラス｜本ページは内部共有用（noindex）<br>
+    作成：goodbaton-labo
+  </div>
 </footer>
 
 </body>
