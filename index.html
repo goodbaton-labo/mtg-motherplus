@@ -130,27 +130,55 @@
     padding:2px 4px;border-radius:2px;
   }
   #tasks-table .edit:hover{background:var(--bg-alt)}
+  #tasks-table .cell-select,#tasks-table .cell-date{
+    font-family:inherit;font-size:14px;
+    border:1px solid var(--border-light);border-radius:4px;
+    padding:6px 8px;background:#fff;width:100%;
+  }
+  #tasks-table tr.is-done td{
+    color:var(--text-sub);
+    text-decoration:line-through;
+    text-decoration-color:var(--text-sub);
+  }
+  #tasks-table tr.is-done input[type="checkbox"]{text-decoration:none}
   #tasks-table .del{
     background:none;border:1px solid var(--border-light);
     color:var(--text-sub);cursor:pointer;
-    width:28px;height:28px;border-radius:4px;
-    font-size:14px;line-height:1;
+    width:32px;height:32px;border-radius:4px;
+    font-size:16px;line-height:1;
   }
   #tasks-table .del:hover{
     border-color:var(--text);color:var(--text);
   }
+  .add-form{
+    display:grid;
+    grid-template-columns:1fr 140px 160px auto;
+    gap:16px;align-items:end;
+    background:var(--bg-alt);
+    padding:20px;border-radius:4px;
+    margin-top:12px;
+  }
+  .add-field{display:flex;flex-direction:column;gap:6px}
+  .add-field span{font-size:13px;font-weight:700;color:var(--text)}
   #new-subject,#new-owner,#new-due{
     font-family:inherit;font-size:15px;
     border:1px solid var(--border);border-radius:4px;
-    padding:10px 12px;
+    padding:10px 12px;background:#fff;
+    width:100%;
   }
   #add-btn{
     font-family:inherit;font-size:15px;font-weight:700;
     background:var(--accent);color:#fff;
     border:1px solid var(--accent);border-radius:4px;
-    padding:10px 24px;cursor:pointer;
+    padding:11px 28px;cursor:pointer;
+    white-space:nowrap;height:44px;
   }
   #add-btn:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+  @media (max-width:720px){
+    .add-form{grid-template-columns:1fr 1fr;gap:12px}
+    .add-field-subject{grid-column:1 / -1}
+    #add-btn{grid-column:1 / -1;width:100%}
+  }
   @media (max-width:640px){
     main{padding:32px 20px}
     section{padding:32px 0}
@@ -216,11 +244,26 @@
     <tbody id="tasks-body"></tbody>
   </table>
   <h4>新規追加</h4>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-    <input id="new-subject" type="text" placeholder="内容" style="flex:1;min-width:200px;padding:8px;border:1px solid var(--border);border-radius:6px">
-    <input id="new-owner"   type="text" placeholder="担当" style="width:90px;padding:8px;border:1px solid var(--border);border-radius:6px">
-    <input id="new-due"     type="text" placeholder="期限" style="width:90px;padding:8px;border:1px solid var(--border);border-radius:6px">
-    <button id="add-btn" style="padding:8px 16px;background:var(--pink);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600">追加</button>
+  <div class="add-form">
+    <label class="add-field add-field-subject">
+      <span>内容</span>
+      <input id="new-subject" type="text" placeholder="タスクの内容を入力">
+    </label>
+    <label class="add-field">
+      <span>担当</span>
+      <select id="new-owner">
+        <option value="">選択</option>
+        <option value="園田">園田</option>
+        <option value="信田">信田</option>
+        <option value="本田">本田</option>
+        <option value="先方">先方</option>
+      </select>
+    </label>
+    <label class="add-field">
+      <span>期限</span>
+      <input id="new-due" type="date">
+    </label>
+    <button id="add-btn" type="button">追加する</button>
   </div>
 </section>
 
@@ -232,10 +275,18 @@ const SUPABASE_KEY = 'sb_publishable_PH1PrXqMHS1126p46U8zqg_eS3pc3KP';
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const TABLE = 'mtg_motherplus_tasks';
 
+const OWNERS = ['園田','信田','本田','先方'];
 const $body   = document.getElementById('tasks-body');
 const $status = document.getElementById('tasks-status');
 
 function escapeHtml(s){return (s??'').toString().replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+function ownerSelect(current){
+  return `<select class="cell-select" data-field="owner">
+    <option value="">—</option>
+    ${OWNERS.map(o => `<option value="${o}" ${o===current?'selected':''}>${o}</option>`).join('')}
+  </select>`;
+}
 
 async function load(){
   $status.textContent = '読み込み中...';
@@ -243,22 +294,28 @@ async function load(){
   if(error){ $status.textContent='エラー: '+error.message; return; }
   $status.textContent = `${data.length}件`;
   $body.innerHTML = data.map(t => `
-    <tr data-id="${t.id}" style="${t.status==='done'?'opacity:.5;text-decoration:line-through':''}">
-      <td><input type="checkbox" class="chk" ${t.status==='done'?'checked':''}></td>
+    <tr data-id="${t.id}" class="${t.status==='done'?'is-done':''}">
+      <td><input type="checkbox" class="chk" ${t.status==='done'?'checked':''} aria-label="完了"></td>
       <td><span class="edit" data-field="subject" contenteditable="true">${escapeHtml(t.subject)}</span></td>
-      <td><span class="edit" data-field="owner" contenteditable="true">${escapeHtml(t.owner||'')}</span></td>
-      <td><span class="edit" data-field="due" contenteditable="true">${escapeHtml(t.due||'')}</span></td>
-      <td><button class="del" style="background:none;border:none;color:#c33;cursor:pointer;font-size:16px">×</button></td>
+      <td>${ownerSelect(t.owner||'')}</td>
+      <td><input type="date" class="cell-date" data-field="due" value="${t.due||''}"></td>
+      <td><button class="del" aria-label="削除">×</button></td>
     </tr>
   `).join('');
 }
 
 $body.addEventListener('change', async e => {
-  if(!e.target.classList.contains('chk')) return;
-  const id = e.target.closest('tr').dataset.id;
-  const status = e.target.checked ? 'done' : 'pending';
-  await supabase.from(TABLE).update({status}).eq('id',id);
-  load();
+  const tr = e.target.closest('tr');
+  if(!tr) return;
+  const id = tr.dataset.id;
+  if(e.target.classList.contains('chk')){
+    await supabase.from(TABLE).update({status: e.target.checked ? 'done' : 'pending'}).eq('id',id);
+    load();
+  } else if(e.target.classList.contains('cell-select')){
+    await supabase.from(TABLE).update({owner: e.target.value || null}).eq('id',id);
+  } else if(e.target.classList.contains('cell-date')){
+    await supabase.from(TABLE).update({due: e.target.value || null}).eq('id',id);
+  }
 });
 
 $body.addEventListener('blur', async e => {
@@ -279,10 +336,11 @@ $body.addEventListener('click', async e => {
 
 document.getElementById('add-btn').addEventListener('click', async () => {
   const subject = document.getElementById('new-subject').value.trim();
-  if(!subject) return;
-  const owner = document.getElementById('new-owner').value.trim();
-  const due   = document.getElementById('new-due').value.trim();
-  await supabase.from(TABLE).insert({subject, owner, due, status:'pending', sort_order:9999});
+  if(!subject){ alert('内容を入力してください'); return; }
+  const owner = document.getElementById('new-owner').value || null;
+  const due   = document.getElementById('new-due').value || null;
+  const { error } = await supabase.from(TABLE).insert({subject, owner, due, status:'pending', sort_order:9999});
+  if(error){ alert('追加エラー: '+error.message); return; }
   document.getElementById('new-subject').value='';
   document.getElementById('new-owner').value='';
   document.getElementById('new-due').value='';
