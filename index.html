@@ -62,7 +62,13 @@
 <section id="next-actions">
   <h2>ネクストアクション</h2>
   <p class="meta">全ミーティング横断のタスク管理。完了チェック・編集・追加・削除がそのまま保存されます（Supabase）。</p>
-  <div id="tasks-status" class="meta">読み込み中...</div>
+  <div class="tasks-toolbar">
+    <span id="tasks-status" class="meta">読み込み中...</span>
+    <label class="toggle-done">
+      <input id="show-done" type="checkbox">
+      <span>完了済みを表示</span>
+    </label>
+  </div>
   <table id="tasks-table">
     <thead>
       <tr>
@@ -108,8 +114,11 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const TABLE = 'mtg_motherplus_tasks';
 
 const OWNERS = ['園田','信田','本田','先方'];
-const $body   = document.getElementById('tasks-body');
-const $status = document.getElementById('tasks-status');
+const $body    = document.getElementById('tasks-body');
+const $status  = document.getElementById('tasks-status');
+const $showDone = document.getElementById('show-done');
+let allTasks = [];
+let showDone = false;
 
 function escapeHtml(s){return (s??'').toString().replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 
@@ -120,12 +129,14 @@ function ownerSelect(current){
   </select>`;
 }
 
-async function load(){
-  $status.textContent = '読み込み中...';
-  const { data, error } = await supabase.from(TABLE).select('*').order('sort_order',{ascending:true}).order('created_at',{ascending:true});
-  if(error){ $status.textContent='エラー: '+error.message; return; }
-  $status.textContent = `${data.length}件`;
-  $body.innerHTML = data.map(t => `
+function render(){
+  const visible = showDone ? allTasks : allTasks.filter(t => t.status !== 'done');
+  const doneCount = allTasks.filter(t => t.status === 'done').length;
+  const pendingCount = allTasks.length - doneCount;
+  $status.textContent = showDone
+    ? `全${allTasks.length}件（未完了 ${pendingCount}／完了 ${doneCount}）`
+    : `未完了 ${pendingCount}件（完了 ${doneCount}件は非表示）`;
+  $body.innerHTML = visible.map(t => `
     <tr data-id="${t.id}" class="${t.status==='done'?'is-done':''}">
       <td><input type="checkbox" class="chk" ${t.status==='done'?'checked':''} aria-label="完了"></td>
       <td><span class="edit" data-field="subject" contenteditable="true">${escapeHtml(t.subject)}</span></td>
@@ -135,6 +146,19 @@ async function load(){
     </tr>
   `).join('');
 }
+
+async function load(){
+  $status.textContent = '読み込み中...';
+  const { data, error } = await supabase.from(TABLE).select('*').order('sort_order',{ascending:true}).order('created_at',{ascending:true});
+  if(error){ $status.textContent='エラー: '+error.message; return; }
+  allTasks = data;
+  render();
+}
+
+$showDone.addEventListener('change', () => {
+  showDone = $showDone.checked;
+  render();
+});
 
 $body.addEventListener('change', async e => {
   const tr = e.target.closest('tr');
