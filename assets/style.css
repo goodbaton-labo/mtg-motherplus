@@ -129,7 +129,7 @@ footer.site .inner{max-width:960px;margin:0 auto}
 }
 .people-list li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
 .people-list img{
-  width:120px;height:120px;border-radius:50%;object-fit:cover;
+  width:120px;height:120px;border-radius:12px;object-fit:cover;
   border:1px solid var(--border-light);
 }
 .people-list .name{font-weight:700;font-size:15px;color:var(--text);line-height:1.4}
