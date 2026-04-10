@@ -48,6 +48,9 @@ nav.site a{
 nav.site a:hover,nav.site a[aria-current]{
   border-bottom-color:var(--accent);color:var(--accent);
 }
+nav.site a.external{
+  margin-left:auto;color:var(--accent);
+}
 main{max-width:960px;margin:0 auto;padding:48px 24px}
 .breadcrumb{
   font-size:14px;color:var(--text-sub);margin-bottom:24px;
