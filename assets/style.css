@@ -66,7 +66,7 @@ section:first-of-type{padding-top:0}
 #tasks-table tbody tr:last-child td{border-bottom:none}
 section h2{
   margin:0 0 24px;font-size:24px;font-weight:700;
-  padding-bottom:12px;
+  padding-bottom:12px;border-bottom:2px solid var(--text);
   letter-spacing:.02em;
 }
 section h3{margin:32px 0 12px;font-size:19px;font-weight:700;color:var(--text)}
@@ -121,6 +121,20 @@ footer.site .inner{max-width:960px;margin:0 auto}
   padding:16px 20px;margin:0 0 32px;
   font-size:14px;
 }
+
+/* 担当者一覧 */
+.people-list{
+  list-style:none;padding:0;margin:16px 0 0;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:24px;
+}
+.people-list li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
+.people-list img{
+  width:120px;height:120px;border-radius:50%;object-fit:cover;
+  border:1px solid var(--border-light);
+}
+.people-list .name{font-weight:700;font-size:15px;color:var(--text);line-height:1.4}
+.people-list .kana{display:block;font-weight:400;font-size:12px;color:var(--text-sub);margin-top:2px}
 
 /* ミーティング一覧カード */
 .meeting-list{
